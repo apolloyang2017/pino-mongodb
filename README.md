@@ -10,7 +10,7 @@ This project is part of the `pino` logger family, however you can use it to pars
 ## Install
 
 ```
-npm i -g pino-mongodb
+npm i -g https://github.com/apolloyang2017/pino-mongodb.git
 ```
 
 ## Get started
