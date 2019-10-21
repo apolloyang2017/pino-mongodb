@@ -7,7 +7,8 @@ const MongoClient = require('mongodb').MongoClient
 const parseMongoUrl = require('muri')
 const log = require('./lib/log')
 const pkg = require('./package.json')
-const makeInsert = require('./lib/makeInsert')
+////const makeInsert = require('./lib/makeInsert')
+const makeUpsert = require('./lib/makeUpsert')
 
 program
   .version(pkg.version)
@@ -30,10 +31,16 @@ function handleConnection (e, mClient) {
   const db = mClient.db(dbName)
   const emitter = carrier.carry(process.stdin)
   const collection = db.collection(program.collection)
-  const insert = makeInsert(program.errors, program.stdout)
+  ////const insert = makeInsert(program.errors, program.stdout)
+  const upsert = makeUpsert(program.errors, program.stdout)
 
   emitter.on('line', (line) => {
-    insert(collection, log(line))
+    ////insert(collection, log(line))
+    var l = log(line)
+    if (collection == "mqttuser") {
+      var k = {"clientid": l.clientid}
+      upsert (collection, k, l)
+    }      
   })
 
   process.on('SIGINT', () => {
