@@ -38,7 +38,7 @@ function handleConnection (e, mClient) {
     ////insert(collection, log(line))
     var l = log(line)
     if (collection == "mqttuser") {
-      var k = {"clientid": l.clientid}
+      var k = {"clientid": l.deviceid}
       upsert(collection, k, l)
     }      
   })
