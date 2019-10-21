@@ -37,10 +37,10 @@ function handleConnection (e, mClient) {
   emitter.on('line', (line) => {
     ////insert(collection, log(line))
     var l = log(line)
-    if (collection == "mqttuser") {
-      var k = {"clientid": l.deviceid}
-      upsert(collection, k, l)
-    }      
+    if (program.collection == "mqttuser") {
+      var k = {clientid: l.deviceid}
+      upsert(collection, k, {"$set":l})
+    }
   })
 
   process.on('SIGINT', () => {
