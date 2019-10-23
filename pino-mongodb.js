@@ -38,8 +38,11 @@ function handleConnection (e, mClient) {
     ////insert(collection, log(line))
     var l = log(line)
     if (program.collection == "mqttuser") {
-      var k = {clientid: l.deviceid}
-      upsert(collection, k, {"$set":l})
+      upsert(collection, {"clientid": l.deviceid}, {"$set":l})
+      if (l.isbluetoothlock) {
+        upsert(db.collection("device"), {"_deviceid": l.deviceid}, {"$set":{"_appkey": "iSurpassApp", "_deviceid": l.deviceid}})
+        upsert(db.collection("node"), {"_deviceid": l.deviceid, "_nodeid": 1}, {"$set":{"_appkey": "iSurpassApp", "_deviceid": l.deviceid, "_nodeid": 1, "_logicid": l.deviceid+"-1-0-", "_isentity": true, "_islogic": true, "_nodetype": "lock", "_logicnodetype": "lock"}})
+      }
     }
   })
 
