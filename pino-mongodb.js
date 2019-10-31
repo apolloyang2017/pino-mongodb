@@ -37,14 +37,14 @@ function handleConnection (e, mClient) {
   emitter.on('line', (line) => {
     ////insert(collection, log(line))
     var l = log(line)
-    if (program.collection == "mqttuser") {
+    //if (program.collection == "mqttuser") {
       upsert(collection, {"clientid": l.deviceid}, {"$set":l})
       if (l.type == 'lockgateway') {
         var ts = Math.round(new Date().getTime()/1000)
         upsert(db.collection("device"), {"_deviceid": l.deviceid}, {"$set":{"_appkey": l.appkey || "iSurpassApp", "_deviceid": l.deviceid, "_create_ts": ts}})
         upsert(db.collection("node"), {"_deviceid": l.deviceid, "_nodeid": 1}, {"$set":{"_appkey": l.appkey || "iSurpassApp", "_deviceid": l.deviceid, "_nodeid": 1, "_logicid": l.deviceid+"-1-0-", "_isentity": true, "_islogic": true, "_nodetype": "lock", "_logicnodetype": "lock", "_create_ts": ts}})
       }
-    }
+    //}
   })
 
   process.on('SIGINT', () => {
