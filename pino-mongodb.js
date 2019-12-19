@@ -44,6 +44,10 @@ function handleConnection (e, mClient) {
         upsert(db.collection("device"), {"_deviceid": l.deviceid}, {"$set":{"_appkey": l.appkey || "iSurpassApp", "_deviceid": l.deviceid, "_isvirtual": true, "_create_ts": ts}})
         upsert(db.collection("node"), {"_deviceid": l.deviceid, "_nodeid": 1}, {"$set":{"_appkey": l.appkey || "iSurpassApp", "_deviceid": l.deviceid, "_nodeid": 1, "_logicid": l.deviceid+"-1-0-", "_isentity": true, "_islogic": true, "_nodetype": "lock", "_logicnodetype": "lock", "_create_ts": ts}})
       }
+      if (l.deviceid.indexOf("iTCP") == 0 {
+        var ts = Math.round(new Date().getTime()/1000)
+        upsert(db.collection("device"), {"_deviceid": l.deviceid}, {"$set":{"_appkey": l.appkey || "iSurpassApp", "_deviceid": l.deviceid, "_isvirtual": false, "_create_ts": ts}})          
+      }
     //}
   })
 
